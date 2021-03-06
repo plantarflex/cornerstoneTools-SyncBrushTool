@@ -1,5 +1,7 @@
 # cornerstoneTools-SyncBrushTool
 
+* May require [CornerstoneSideViewLoader] if you only have a single dimensional view 
+* Automated generation using cornerstoneSideViewLoader will be on, in near future
 * Distribution is not ready
 
 
