@@ -1,0 +1,42 @@
+{
+  "name": "cornerstonetools-syncbrush",
+  "version": "0.1.2",
+  "description": "A cornerstoneTools brush plugin that enables 3-dimentional segmentation",
+  "main": "dist/index.js",
+  "devDependencies": {
+    "terser-webpack-plugin": "^5.1.1",
+    "webpack": "^5.33.2",
+    "webpack-cli": "^4.6.0"
+  },
+  "dependencies": {
+    "cornerstone-side-image-loader": "^0.1.0",
+    "cornerstone-tools": "4.12.5",
+    "lodash": "^4.17.21"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "webpack"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/plantarflex/cornerstoneTools-SyncBrushTool.git"
+  },
+  "keywords": [
+    "cornerstone",
+    "medical",
+    "image",
+    "3D",
+    "DICOM",
+    "series",
+    "3D"
+  ],
+  "author": "plantarflex <plantarflex@naver.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/issues"
+  },
+  "homepage": "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool#readme",
+  "files": [
+    "dist/index.js"
+  ]
+}
