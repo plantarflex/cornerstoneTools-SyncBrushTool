@@ -1,8 +1,8 @@
 import cornerstoneTools from "cornerstone-tools"
 import cornerstone from "cornerstone-core"
-import { restoreImagePointArray, getLabelmap2DPatch } from "./patch"
-import { drawBrushPixels } from "../segmentation/drawBrush"
-import { pivotImagePointArray } from "../segmentation/pointArray"
+import { drawBrushPixels } from "./segmentation/drawBrush"
+import { pivotImagePointArrayTo3D } from "./segmentation/pivoters"
+import { restoreImagePointArray, getLabelmap2DPatch } from "./utils/patch"
 
 const BaseBrushTool = cornerstoneTools.import("base/BaseBrushTool")
 const segmentationModule = cornerstoneTools.getModule("segmentation")
@@ -24,7 +24,7 @@ export default class SyncBrushTool extends BaseBrushTool {
   }
 
   _startPainting(evt) {
-    const { configuration, getters } = segmentationModule
+    const { configuration, getters, state } = segmentationModule
     const eventData = evt.detail
     const sourceElement = eventData.element
     const sourceImage = eventData.image
@@ -36,6 +36,15 @@ export default class SyncBrushTool extends BaseBrushTool {
     }
     this.filterData = {
       sourcePixelData: sourceImage.getPixelData(),
+      mode: configuration.mode || "plain",
+      adaptCache: null,
+      closeSize: configuration.closeSize || 1,
+      openSize: configuration.openSize || 1,
+      reverseOn: configuration.reverseOn || false,
+      radius: configuration.radius || 10,
+
+      thresholdOn: configuration.thresholdOn || false,
+      thresholdMeta: configuration.thresholdMeta,
     }
     const {
       labelmap3D,
@@ -57,8 +66,8 @@ export default class SyncBrushTool extends BaseBrushTool {
     }
   }
 
-  async _paint(evt) {
-    const { getters } = segmentationModule
+  _paint(evt) {
+    const { configuration, getters } = segmentationModule
     const eventData = evt.detail
     const sourceElement = eventData.element
     const sourceImage = eventData.image
@@ -74,7 +83,7 @@ export default class SyncBrushTool extends BaseBrushTool {
     }
     const { labelmap2D, labelmap3D, shouldErase } = this.paintEventData
 
-    const labelmap2DPatch = await getLabelmap2DPatch(
+    const labelmap2DPatch = getLabelmap2DPatch(
       rows,
       columns,
       Math.round(sourceImagePoint.x),
@@ -90,6 +99,7 @@ export default class SyncBrushTool extends BaseBrushTool {
       activeColorLUTIndex,
       columns,
       shouldErase,
+      true,
     )
     cornerstone.updateImage(sourceElement)
 
@@ -107,7 +117,7 @@ export default class SyncBrushTool extends BaseBrushTool {
     // brush other views accordingly
     const syncContext = toolData.data[0].synchronizationContext
     const syncElements = syncContext.getSourceElements()
-    syncElements.forEach(async (targetElement) => {
+    syncElements.forEach((targetElement) => {
       if (targetElement === sourceElement) {
         return
       }
@@ -124,7 +134,7 @@ export default class SyncBrushTool extends BaseBrushTool {
         baseImageId,
       )
 
-      const imagePointArrayGroup = pivotImagePointArray(
+      const imagePointArrayGroup = pivotImagePointArrayTo3D(
         sourceImagePointArray,
         sourceImageIdIndex,
         columns,
@@ -147,6 +157,7 @@ export default class SyncBrushTool extends BaseBrushTool {
             activeColorLUTIndex,
             columns,
             shouldErase,
+            false,
           )
         } catch (e) {
           console.log(e)

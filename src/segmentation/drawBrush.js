@@ -1,4 +1,5 @@
 import cornerstoneTools from "cornerstone-tools"
+import { count } from "./colors"
 
 const { eraseIfSegmentIndex } = cornerstoneTools.import(
   "util/segmentationUtils",
@@ -12,13 +13,20 @@ export const drawBrushPixels = (
   colorLUTIndex,
   columns,
   shouldErase = false,
+  colorCountOn = false,
 ) => {
   const getSpIndex = (x, y) => y * columns + x
   pointArray.forEach((point) => {
     const spIndex = getSpIndex(point.x, point.y)
     if (shouldErase) {
+      if (colorCountOn && pixelData[spIndex] === segmentIndex) {
+        count.decrease(colorLUTIndex)
+      }
       eraseIfSegmentIndex(spIndex, pixelData, segmentIndex)
     } else {
+      if (colorCountOn && pixelData[spIndex] !== segmentIndex) {
+        count.increase(colorLUTIndex)
+      }
       pixelData[spIndex] = segmentIndex
     }
   })

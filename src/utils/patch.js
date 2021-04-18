@@ -1,28 +1,17 @@
-import { getCircle } from "../segmentation/pointArray"
+import { getCircle } from "./pointArray"
+import { plain } from "./brushModes"
 
 function getPatchPixelData(rows, columns, xCoord, yCoord, filterData) {
-  const getSpIndex = (x, y, width) => y * width + x
-  const patchWidth = filterData.radius * 2
   const pointArray = getCircle(filterData.radius, rows, columns, xCoord, yCoord)
   const patchPointArray = pointArray.map((point) => ({
     x: point.x - xCoord + filterData.radius,
     y: point.y - yCoord + filterData.radius,
   }))
 
-  let patchPixelData = new Uint16Array(patchWidth ** 2).fill(0)
-  patchPointArray.forEach((point) => {
-    patchPixelData[getSpIndex(point.x, point.y, patchWidth)] = 1
-  })
-  return patchPixelData
+  return plain(columns, filterData, pointArray, patchPointArray)
 }
 
-export const getLabelmap2DPatch = (
-  rows,
-  columns,
-  xCoord = 0,
-  yCoord = 0,
-  filterData,
-) => {
+function getLabelmap2DPatch(rows, columns, xCoord = 0, yCoord = 0, filterData) {
   const patchWidth = filterData.radius * 2
   const patchPixelData = getPatchPixelData(
     rows,
@@ -39,7 +28,7 @@ export const getLabelmap2DPatch = (
   return labelmap2DPatch
 }
 
-export const restoreImagePointArray = (labelmap2DPatch) => {
+function restoreImagePointArray(labelmap2DPatch) {
   const { center, width } = labelmap2DPatch
   const pointArray = []
   const getImagePoint = (spIndex) => ({
@@ -47,9 +36,7 @@ export const restoreImagePointArray = (labelmap2DPatch) => {
     y: Math.trunc(spIndex / width),
   })
   labelmap2DPatch.pixelData.forEach((pixel, patchSpIndex) => {
-    if (pixel === 0) {
-      return
-    }
+    if (pixel === 0) return
     const imagePoint = getImagePoint(patchSpIndex)
     pointArray.push({
       x: center.x - width / 2 + imagePoint.x,
@@ -58,3 +45,5 @@ export const restoreImagePointArray = (labelmap2DPatch) => {
   })
   return pointArray
 }
+
+export { getLabelmap2DPatch, restoreImagePointArray }
