@@ -1,11 +1,43 @@
 # cornerstoneTools-SyncBrushTool
 
-* May require [CornerstoneSideViewLoader] if you only have a single dimensional view 
-* Automated generation using cornerstoneSideViewLoader will be on, in near future
-* Distribution is not ready
+A brush that labels 3D views simultaneously. Your axial brushing will be synchronized with sagittal and coronal labelmaps which are displayed via [cornerstoneSideImageLoader](https://github.com/plantarflex/cornerstoneSideImageLoader) This is a 3rd party library of [cornerstoneTools](https://github.com/cornerstonejs/cornerstoneTools).<br>
 
+## Dependencies 
 
-## Example
+* [cornerstone-core](https://github.com/cornerstonejs/cornerstone)
+* [cornerstone-tools](https://github.com/cornerstonejs/cornerstoneTools)
+* [cornerstone-side-image-loader](https://github.com/plantarflex/cornerstoneSideImageLoader)
+
+## Demo
+
 ![92598259-8a4cac00-f2e3-11ea-9224-79a21f3b62a0](https://user-images.githubusercontent.com/31844264/110202428-e3b92080-7eab-11eb-8b27-457069bd26e8.gif)
 
 
+## Installation
+
+```sh
+$ yarn add cornerstonetools-syncbrush
+```
+
+or
+
+```sh
+$ npm i cornerstonetools-syncbrush
+```
+
+## Example
+
+```js
+import SyncBrushTool from "cornerstonetools-syncbrush";
+
+cornerstoneTools.addTool(SyncBrushTool)
+cornerstoneTools.setToolActiveForElement(axialElement, "SyncBrush", {
+  mouseButtonMask: 1,
+})
+cornerstoneTools.setToolPassiveForElement(sagittalElement)
+cornerstoneTools.setToolPassiveForElement(coronalElement)
+```
+
+## LICENSE
+
+MIT
