@@ -28,7 +28,7 @@ $ npm i cornerstonetools-syncbrush
 ## Example
 
 ```js
-import SyncBrushTool from "cornerstonetools-syncbrush";
+import SyncBrushTool from "cornerstonetools-syncbrush"
 
 cornerstoneTools.addTool(SyncBrushTool)
 cornerstoneTools.setToolActiveForElement(axialElement, "SyncBrush", {
