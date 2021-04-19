@@ -19,4 +19,8 @@ module.exports = {
       extractComments: false,
     })],
   },
+  externals: {
+    'cornerstone-core': 'cornerstone-core',
+    'cornerstone-tools': 'cornerstone-tools',
+  }
 };

@@ -6,9 +6,7 @@
   "devDependencies": {
     "terser-webpack-plugin": "^5.1.1",
     "webpack": "^5.33.2",
-    "webpack-cli": "^4.6.0"
-  },
-  "dependencies": {
+    "webpack-cli": "^4.6.0",
     "cornerstone-side-image-loader": "^0.1.0",
     "cornerstone-tools": "4.12.5",
     "lodash": "^4.17.21"
