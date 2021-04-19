@@ -16,7 +16,7 @@ export const colorList = [
   [175, 164, 65, 255],
 ]
 
-export const count = {
+const count = {
   _cnt: new Array(colorList.length).fill(0),
   get current() { return this._cnt },
   refresh: function () {
@@ -31,7 +31,7 @@ export const count = {
 }
 
 //TODO: integreate with cornerstoneTools-Thresholder
-export function initThresholdColormap(cornerstoneColormap) {
+function initThresholdColormap(cornerstoneColormap) {
   cornerstoneColormap.setNumberOfColors(256)
   for (let i = 0; i < 256; i++) {
     cornerstoneColormap.setColor(i, [255, 255, 255, 255])
@@ -39,3 +39,5 @@ export function initThresholdColormap(cornerstoneColormap) {
   cornerstoneColormap.setColor(0, [0, 0, 0, 255])
   cornerstoneColormap.setColor(255, [0, 0, 0, 255])
 }
+
+export { count }

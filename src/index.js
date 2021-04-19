@@ -1,5 +1,5 @@
 import SyncBrushTool from './SyncBrushTool'
-import count from './segmentation/colors'
+import { count } from './segmentation/colors'
 
 export {
   count
