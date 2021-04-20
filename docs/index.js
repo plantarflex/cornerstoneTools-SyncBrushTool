@@ -129,3 +129,12 @@ const display = async (element, imageIds) => {
 }
 
 init()
+const axial = document.querySelector("#axial")
+const sagittal = document.querySelector("#sagittal")
+const coronal = document.querySelector("#coronal")
+const { generateSideImages } = cornerstoneSideImageLoader
+display(axial, imageIds).then((images) => {
+  const { coronalImageIds, sagittalImageIds } = generateSideImages(images)
+  display(coronal, coronalImageIds)
+  display(sagittal, sagittalImageIds)
+})
