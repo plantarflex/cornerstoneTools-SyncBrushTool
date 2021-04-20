@@ -1,18 +1,69 @@
-//import cornerstone from "cornerstone-core"
-//import cornerstoneTools from "cornerstone-tools"
-//import Hammer from "hammerjs"
-//import dicomParser from "dicom-parser"
-//import cornerstoneMath from "cornerstone-math"
-//import cornerstoneWADOImageLoader from "cornerstone-wado-image-loader"
-//import cornerstoneWebImageLoader from "cornerstone-web-image-loader"
-//import cornerstoneSideImageLoader from "cornerstone-side-image-loader"
-//import SyncBrushTool from "cornerstonetools-syncbrush"
+const imageIds = [
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000000.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000001.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000002.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000003.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000004.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000005.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000006.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000007.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000008.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000009.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000010.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000011.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000012.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000013.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000014.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000015.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000016.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000017.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000018.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000019.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000020.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000021.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000022.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000023.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000024.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000025.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000026.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000027.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000028.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000029.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000030.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000031.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000032.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000033.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000034.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000035.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000036.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000037.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000038.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000039.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000040.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000041.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000042.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000043.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000044.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000045.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000046.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000047.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000048.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000049.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000050.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000051.dcm",
+  "https://github.com/plantarflex/cornerstoneTools-SyncBrushTool/blob/master/docs/data/CT000052.dcm",
+]
 
 const init = () => {
+  cornerstoneWebImageLoader.external.cornerstone = cornerstone
+  cornerstone.registerImageLoader("http", cornerstoneWebImageLoader.loadImage)
+  cornerstone.registerImageLoader("https", cornerstoneWebImageLoader.loadImage)
+  cornerstoneSideImageLoader.external.cornerstone = cornerstone
+
   cornerstoneTools.external.cornerstone = cornerstone
   cornerstoneTools.external.Hammer = Hammer
   cornerstoneTools.external.cornerstoneMath = cornerstoneMath
-  cornerstoneTools.init({})
+  cornerstoneTools.init()
   cornerstoneTools.toolStyle.setToolWidth(2)
   cornerstoneTools.toolColors.setToolColor("rgb(255, 255, 0)")
   cornerstoneTools.toolColors.setActiveColor("rgb(0, 255, 0)")
@@ -21,25 +72,6 @@ const init = () => {
   sgm.configuration.fillAlpha = 0.5
   sgm.configuration.fillAlphaInactive = 0
   sgm.configuration.renderOutline = false
-  cornerstoneWADOImageLoader.webWorkerManager.initialize({
-    maxWebWorkers: navigator.hardwareConcurrency || 1,
-    startWebWorkersOnDemand: true,
-    webWorkerPath: "/cornerstoneWADOImageLoaderWebWorker.min.js",
-    webWorkerTaskPaths: [],
-    taskConfiguration: {
-      decodeTask: {
-        loadCodecsOnStartup: true,
-        initializeCodecsOnStartup: false,
-        codecsPath: "/cornerstoneWADOImageLoaderCodecs.min.js",
-        usePDFJS: false,
-        strict: false,
-      },
-    },
-  })
-  cornerstoneWADOImageLoader.external.cornerstone = cornerstone
-  cornerstoneWADOImageLoader.external.dicomParser = dicomParser
-  cornerstoneWebImageLoader.external.cornerstone = cornerstone
-  cornerstoneSideImageLoader.external.cornerstone = cornerstone
 }
 
 const synchronizer = new cornerstoneTools.Synchronizer(
@@ -96,15 +128,4 @@ const display = async (element, imageIds) => {
   )
 }
 
-const show = (imageIds) => {
-  init()
-  const axial = document.querySelector("#axial")
-  const sagittal = document.querySelector("#sagittal")
-  const coronal = document.querySelector("#coronal")
-  const { generateSideImages } = cornerstoneSideImageLoader
-  display(axial, imageIds).then((images) => {
-    const { coronalImageIds, sagittalImageIds } = generateSideImages(images)
-    display(coronal, coronalImageIds)
-    display(sagittal, sagittalImageIds)
-  })
-}
+init()
