@@ -116,7 +116,7 @@ const display = async (element, imageIds) => {
     mouseButtonMask: 0,
   })
   cornerstoneTools.setToolActive("Crosshairs", {
-    mouseButtonMask: 4,
+    mouseButtonMask: 2,
     synchronizationContext: synchronizer,
   })
   cornerstoneTools.addToolForElement(element, SyncBrushTool)
