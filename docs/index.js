@@ -54,16 +54,11 @@ const imageIds = [
   "wadouri:https://plantarflex.github.io/cornerstoneTools-SyncBrushTool/data/CT000051.dcm",
 ]
 
-function init() {
-  // Externals
-  cornerstoneWADOImageLoader.external.cornerstone = cornerstone
+function _init() {
   cornerstoneWADOImageLoader.external.dicomParser = dicomParser
-  cornerstoneTools.external.cornerstoneMath = cornerstoneMath
-  cornerstoneTools.external.cornerstone = cornerstone
-  cornerstoneTools.external.Hammer = Hammer
+  cornerstoneWADOImageLoader.external.cornerstone = cornerstone
   cornerstoneSideImageLoader.external.cornerstone = cornerstone
 
-  // Image Loader
   const config = {
     webWorkerPath: `https://tools.cornerstonejs.org/examples/assets/image-loader/cornerstoneWADOImageLoaderWebWorker.js`,
     taskConfiguration: {
@@ -73,15 +68,27 @@ function init() {
     },
   }
   cornerstoneWADOImageLoader.webWorkerManager.initialize(config)
-  cornerstoneTools.init()
+  cornerstoneTools.external.cornerstoneMath = cornerstoneMath
+  cornerstoneTools.external.cornerstone = cornerstone
+  cornerstoneTools.external.Hammer = Hammer
+  const segModule = cornerstoneTools.getModule("segmentation")
+  segModule.configuration.fillAlpha = 0.5
+  segModule.configuration.fillAlphaInactive = 0
+  segModule.configuration.renderOutline = false
+  cornerstoneTools.init({
+    showSVGCursors: true,
+  })
+
+  cornerstoneTools.toolStyle.setToolWidth(2)
+  cornerstoneTools.toolColors.setToolColor("rgb(255, 255, 0)")
+  cornerstoneTools.toolColors.setActiveColor("rgb(0, 255, 0)")
+  cornerstoneTools.store.state.touchProximity = 40
 }
 
 const synchronizer = new cornerstoneTools.Synchronizer(
   "cornerstonenewimage",
   cornerstoneTools.updateImageSynchronizer,
 )
-
-const toolNames = ["StackScrollMouseWheel", "ReferenceLines", "Crosshairs"]
 
 const display = async (element, imageIds) => {
   cornerstone.enable(element)
@@ -97,28 +104,42 @@ const display = async (element, imageIds) => {
     imageIds: [...imageIds],
     currentImageIdIndex: 0,
   })
-  toolNames.forEach((toolName) => {
-    const apiTool = cornerstoneTools[`${toolName}Tool`]
-    cornerstoneTools.addToolForElement(element, apiTool)
-  })
+  cornerstoneTools.addToolForElement(
+    element,
+    cornerstoneTools["StackScrollMouseWheelTool"],
+  )
+  cornerstoneTools.addToolForElement(
+    element,
+    cornerstoneTools["CrosshairsTool"],
+  )
   cornerstoneTools.setToolActive("StackScrollMouseWheel", {
     mouseButtonMask: 0,
   })
   cornerstoneTools.setToolActive("Crosshairs", {
-    mouseButtonMask: 1,
+    mouseButtonMask: 4,
     synchronizationContext: synchronizer,
   })
+  cornerstoneTools.addToolForElement(element, SyncBrushTool)
+  if (element.id === "axial") {
+    cornerstoneTools.setToolActiveForElement(element, "SyncBrush", {
+      isTouchActive: true,
+      mouseButtonMask: 1,
+    })
+  } else {
+    cornerstoneTools.setToolPassiveForElement(element, "SyncBrush")
+  }
   return Promise.all(
     imageIds.map((imageId) => cornerstone.loadAndCacheImage(imageId)),
   )
 }
 
+const { generateSideImages } = cornerstoneSideImageLoader
+
 ;(async function () {
-  init()
+  _init()
   const axial = document.querySelector("#axial")
   const sagittal = document.querySelector("#sagittal")
   const coronal = document.querySelector("#coronal")
-  const { generateSideImages } = cornerstoneSideImageLoader
 
   const images = await display(axial, imageIds)
   const { coronalImageIds, sagittalImageIds } = generateSideImages(images)
