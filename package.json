@@ -1,6 +1,6 @@
 {
   "name": "cornerstonetools-syncbrush",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "A cornerstoneTools brush plugin that enables 3-dimentional segmentation",
   "main": "dist/index.js",
   "devDependencies": {

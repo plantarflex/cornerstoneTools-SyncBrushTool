@@ -3,14 +3,15 @@ const path = require('path');
 
 module.exports = {
   entry: './src/index.js',
-  mode: 'production',
+  mode: 'development',
 	output: {
     filename: 'index.js',
     path: path.resolve(__dirname, 'dist'),
     library: {
-      name: 'cornerstoneTools-SyncBrushTool',
+      name: 'SyncBrushTool',
       type: 'umd',
       umdNamedDefine: true,
+      export: 'default',
     },
     clean: true,
   },
@@ -20,7 +21,7 @@ module.exports = {
     })],
   },
   externals: {
-    'cornerstone-core': 'cornerstone-core',
-    'cornerstone-tools': 'cornerstone-tools',
+    'cornerstone-core': 'cornerstone',
+    'cornerstone-tools': 'cornerstoneTools',
   }
 };
